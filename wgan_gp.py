@@ -44,12 +44,12 @@ def argument_parser():
                         default=0)
     parser.add_argument('--bg',
                         type=float,
-                        help='Beta2 of G',
-                        default=0.999)
+                        help='Beta of G',
+                        default=0.9)
     parser.add_argument('--bd',
                         type=float,
-                        help='Beta2 of D',
-                        default=0.999)    
+                        help='Beta of D',
+                        default=0.9)    
     parser.add_argument('--w_d_d',
                         type=float,
                         help='Weight Decay of D',
@@ -94,8 +94,8 @@ def main(args):
     device = torch.device(f"cuda:{args.gpu}" if torch.cuda.is_available() else "cpu")
     model_g = Gmodel(noise_channel=args.n_c).to(device)
     model_d = Dmodel().to(device)
-    optim_g = torch.optim.Adam(model_g.parameters(), lr=args.lr_g, betas=(0.9,args.bg), weight_decay=args.w_d_g)
-    optim_d = torch.optim.Adam(model_d.parameters(), lr=args.lr_d, betas=(0.9,args.bd), weight_decay=args.w_d_d)
+    optim_g = torch.optim.Adam(model_g.parameters(), lr=args.lr_g, betas=(args.bg,0.999), weight_decay=args.w_d_g)
+    optim_d = torch.optim.Adam(model_d.parameters(), lr=args.lr_d, betas=(args.bd,0.999), weight_decay=args.w_d_d)
     trans = transform()
     real_data = dset.ImageFolder("./dset/", transform=trans)
     train_loader = torch.utils.data.DataLoader(real_data, 
