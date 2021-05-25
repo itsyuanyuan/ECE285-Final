@@ -118,8 +118,8 @@ def main(args):
     #criterion = nn.BCELoss()
     loss_d_record = []
     loss_g_record = []
-    Real = torch.FloatTensor([-1]).to(device)
-    Fake = torch.FloatTensor([1]).to(device)
+    Fake = torch.tensor(1, dtype=torch.float).to(device)
+    Real = torch.tensor(-1, dtype=torch.float).to(device)
     for epoch in range(ck_ep, args.num_epochs):
         bloss_d = []
         bloss_g = []
@@ -131,14 +131,14 @@ def main(args):
                 model_d.zero_grad()
                 T_x = data[0].to(device)
                 output = model_d(T_x) 
-                loss_T_d = output.mean(0).view(1)
+                loss_T_d = output.mean()
                 loss_T_d.backward(Real)
             
                 F_noise = sample_from_noise(args.batch_size, args.n_c)
                 F_noise = F_noise.to(device)
                 F_x = model_g(F_noise)
-                output = model_d(F_x.detach())
-                loss_F_d = output.mean(0).view(1)
+                output = model_d(F_x)
+                loss_F_d = output.mean()
                 loss_F_d.backward(Fake)
             
                 gamma = torch.rand(size = (T_x.size(0), 1))
@@ -166,7 +166,7 @@ def main(args):
             F_noise = F_noise.to(device)
             F_x = model_g(F_noise)
             output = model_d(F_x)
-            loss_G = output.mean(0).view(1)
+            loss_G = output.mean()
             loss_G.backward(Real)
             optim_g.step()
             Dg = -loss_G
