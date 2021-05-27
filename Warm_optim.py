@@ -1,4 +1,4 @@
-class Woptim():
+class Woptim:
     def __init__(self, d_size, warmup, optim):
         self.optimizer = optim
         self.d_size = d_size
