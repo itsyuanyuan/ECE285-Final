@@ -1,3 +1,6 @@
+'''
+Create the gif for image folder.
+'''
 import glob
 import imageio
 import os
