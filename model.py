@@ -45,6 +45,26 @@ class Dmodel(nn.Module):
     def forward(self,x):
         return self.conv(x)
 
+class WDmodel(nn.Module):
+    def __init__(self):
+        super(Dmodel, self).__init__()
+        self.conv = nn.Sequential(
+            nn.Conv2d(1,16,kernel_size =4, stride=2, padding=1),
+            nn.LeakyReLU(0.2, inplace=True),
+            nn.BatchNorm2d(16),
+            nn.Conv2d(16,32, kernel_size = 4, stride=2, padding=1),
+            nn.LeakyReLU(0.2, inplace=True),
+            nn.BatchNorm2d(32),
+            nn.Conv2d(32,64, kernel_size = 4, stride=2, padding=1),
+            nn.LeakyReLU(0.2, inplace=True),
+            nn.BatchNorm2d(64),
+            nn.Conv2d(64,128, kernel_size = 4, stride=2, padding=1),
+            nn.LeakyReLU(0.2, inplace=True),
+            nn.BatchNorm2d(128),
+            nn.Conv2d(128,1,kernel_size=4, stride=1)
+        )
+    def forward(self,x):
+        return self.conv(x)
 
 
 
