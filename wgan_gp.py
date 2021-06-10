@@ -93,7 +93,7 @@ def main(args):
         
     device = torch.device(f"cuda:{args.gpu}" if torch.cuda.is_available() else "cpu")
     model_g = Gmodel(noise_channel=args.n_c).to(device)
-    model_d = Dmodel().to(device)
+    model_d = WDmodel().to(device)
     optim_g = torch.optim.Adam(model_g.parameters(), lr=args.lr_g, betas=(args.bg,0.999), weight_decay=args.w_d_g)
     optim_d = torch.optim.Adam(model_d.parameters(), lr=args.lr_d, betas=(args.bd,0.999), weight_decay=args.w_d_d)
     trans = transform()
